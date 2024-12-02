@@ -1,20 +1,17 @@
 // app.js
-const express = require('express');
-const connectDB = require('./config/db');
-require('dotenv').config();
-
-// Initialize app
+import express from 'express';
+import connectDB from './config/db.js';
+import cors from 'cors';
+import urlshorten from './routes/urlshorten.routes.js';
 const app = express();
 
-// Connect to the database
+
+app.use(cors());
 connectDB();
+app.use(express.json({ limit: "16kb" }));
 
-// Middleware
-app.use(express.json());
+app.use('/api/shorten', urlshorten);
 
-app.get('/', (req, res) => {
-    res.send('URL Shortener API is running');
-});
 
 
 // Set the port from environment or default to 4000
