@@ -41,7 +41,7 @@ export const shortenUrl = async (req, res) => {
 
 // logic for getting the original URL
 export const getUrl = async (req, res) => {
-    const { shortUrl } = req.params;
+    const shortUrl = req?.query?.shortUrl;
     try {
         // Find the original URL by the short URL
         const url = await Url.findOne({ shortUrl });
@@ -50,7 +50,6 @@ export const getUrl = async (req, res) => {
             return res.status(404).json({ error: 'Short URL not found' });
         }
 
-        // Increment click count (optional analytics)
         url.clickCount += 1;
         await url.save();
 
